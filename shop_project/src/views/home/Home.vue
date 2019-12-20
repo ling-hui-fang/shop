@@ -3,14 +3,14 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners"></home-swiper>
-    <recommend-view :recommends="recommends"/>
-    <feature-view/>
-    <tab-control class="tab-control" 
-                :titles="['流行','新款','精选']"
-                @tabClick="tabClick">
-    </tab-control>
-    <goods-list :goods="showGoods"></goods-list>
+    <scroll class="content">
+      <home-swiper :banners="banners"></home-swiper>
+      <recommend-view :recommends="recommends" />
+      <feature-view />
+      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick">
+      </tab-control>
+      <goods-list :goods="showGoods"></goods-list>
+    </scroll>
   </div>
 </template>
 
@@ -23,6 +23,7 @@ import TabControl from 'components/common/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 
 import {getHomeMultidata,getHomeGoods} from 'network/home'
+import Scroll from 'components/common/scroll/Scroll'
 
 export default {
   name: 'Home',
@@ -49,7 +50,8 @@ export default {
     RecommendView,
     FeatureView,
     TabControl,
-    GoodsList
+    GoodsList,
+    Scroll
   },
   created() {
       //1.请求多个数据
@@ -111,5 +113,17 @@ export default {
 .tab-control {
   position:sticky;
   top:44px;
+}
+/* .content{
+  height:calc(100%-93px);
+  overflow: hidden;
+  margin-top:44px;
+} */
+.content {
+  position: absolute;
+  top:44px;
+  bottom:49px;
+  left:0;
+  right:0;
 }
 </style>
