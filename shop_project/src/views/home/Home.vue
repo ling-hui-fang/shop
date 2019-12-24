@@ -3,7 +3,7 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends" />
       <feature-view />
@@ -11,6 +11,7 @@
       </tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
 import TabControl from 'components/common/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
+import BackTop from 'components/content/backTop/BackTop'
 
 import {getHomeMultidata,getHomeGoods} from 'network/home'
 import Scroll from 'components/common/scroll/Scroll'
@@ -36,7 +38,8 @@ export default {
         'new':{page:0,list:[]},
         'sell':{page:0,list:[]}
       },
-      currentType:'pop'
+      currentType:'pop',
+      isShowBackTop:false
     }
   },
   computed:{
@@ -51,7 +54,8 @@ export default {
     FeatureView,
     TabControl,
     GoodsList,
-    Scroll
+    Scroll,
+    BackTop
   },
   created() {
       //1.请求多个数据
@@ -88,6 +92,12 @@ export default {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
       })
+    },
+    backClick(){
+      this.$refs.scroll.scrollTo(0,0)
+    },
+    contentScroll(position){
+      this.isShowBackTop = (-position.y) > 1000
     }
     
   },
