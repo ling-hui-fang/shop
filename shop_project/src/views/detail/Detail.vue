@@ -5,6 +5,10 @@
             <detail-swiper :top-images="topImages" />
             <detail-base-info :goods="goods" />
             <detail-shop-info :shop="shop" />
+            <detail-goods-info :detail-info="detailInfo" @imagLoad="imagLoad"/>
+            <detail-param-info :param-info = "paramInfo" ref="params"/>
+            <detail-comment-info :comment-info="commentInfo" ref="comment"/> 
+            <goods-list :goods="recommends"/>
         </scroll>
         
     </div>
@@ -15,6 +19,10 @@
     import DetailSwiper from './childComps/DetailSwiper'
     import DetailBaseInfo from './childComps/DetailBaseInfo'
     import DetailShopInfo from './childComps/DetailShopInfo'
+    import DetailGoodsInfo from './childComps/DetailGoodsInfo'
+    import DetailParamInfo from './childComps/DetailParamInfo'
+    import DetailCommentInfo from './childComps/DetailCommentInfo'
+    import GoodsList from 'components/content/goods/GoodsList'
 
     import Scroll from 'components/common/scroll/Scroll'
 
@@ -23,10 +31,16 @@
         name: 'Detail',
         data(){
             return {
-                iid:null,
-                topImages:[],
-                goods:{},
-                shop:{}
+               id: null,
+                topImages: [],
+                goods: {},
+                shop: {},
+                detailInfo: {},
+                paramInfo: {},
+                commentInfo: {},
+                recommends: [],
+                themeTopYs: [],
+                getThemeTopY: null
             }
         },
         components:{
@@ -34,8 +48,11 @@
             DetailSwiper,
             DetailBaseInfo,
             DetailShopInfo,
-            Scroll
-
+            DetailGoodsInfo,
+            Scroll,
+            DetailParamInfo,
+            DetailCommentInfo,
+            GoodsList
         },
         created() {
             //1.保存传入的iid
@@ -51,7 +68,15 @@
                 //3.创建店铺信息的对象
                 this.shop = new Shop(data.shopInfo)
             })
-        },
+            //4.给getThemeTopY赋值
+            this.getThemeTopY = debounce(()=>{
+                this.themeTopYs = []
+                this.themeTopYs.push(0)
+                this.themeTopYs.push(this.$refs.params.$el.offsetTop)
+                this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
+                this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
+            },100)
+        }
     }
 </script>
 

@@ -37,10 +37,12 @@ import GoodsList from 'components/content/goods/GoodsList'
 import BackTop from 'components/content/backTop/BackTop'
 
 import {getHomeMultidata,getHomeGoods} from 'network/home'
+import { itemListenerMixin } from 'common/mixin'
 import Scroll from 'components/common/scroll/Scroll'
 
 export default {
   name: 'Home',
+  mixins:[itemListenerMixin],
   data(){
     return {
       banners:[],
