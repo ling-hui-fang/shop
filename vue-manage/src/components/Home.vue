@@ -8,14 +8,15 @@
             <el-button type="info" @click="logout">退出</el-button>
         </el-header>
         <el-container>
-            <el-aside width="200px">
-                <el-menu background-color="#333744" text-color="#fff" active-text-color="#ffd04b">
+            <el-aside :width="isCollapse ? '64px' : '200px'">
+                <div class="toggle-button" @click="toggleCollapse">|||</div>
+                <el-menu background-color="#333744" text-color="#fff" active-text-color="#409BFF" unique-opened :collapse="isCollapse" :collapse-transition="false">
                     <!-- 一级菜单 -->
                     <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
                         <!-- 一级菜单的模板区 -->
                         <template slot="title">
                             <!-- 图标 -->
-                            <i class="el-icon-location"></i>
+                            <i :class="iconsObj[item.id]"></i>
                             <!-- 文本 -->
                             <span>{{item.authName}}</span>
                         </template>
@@ -24,7 +25,7 @@
                         <el-menu-item :index="subItem.id + ''" v-for="subItem in item.children">
                             <template slot="title">
                                 <!-- 图标 -->
-                                <i class="el-icon-location"></i>
+                                <i class="el-icon-menu"></i>
                                 <!-- 文本 -->
                                 <span>{{subItem.authName}}</span>
                             </template>
@@ -36,7 +37,9 @@
                     </el-submenu>
                 </el-menu>
             </el-aside>
-            <el-main>Main</el-main>
+            <el-main>
+                <router-view></router-view>
+            </el-main>
         </el-container>
     </el-container>
 </template>
@@ -45,7 +48,16 @@ export default {
     name:"Home",
     data(){
         return{
-            menulist:[]
+            menulist:[],
+            iconsObj:{
+                "125":"iconfont icon-users",
+                "103":"iconfont icon-tijikongjian",
+                "101":"iconfont icon-shangpin",
+                "102":"iconfont icon-shangpin",
+                "145":"iconfont icon-baobiao"
+            },
+            //是否折叠
+            isCollapse:false
         }
     },
     created(){
@@ -61,7 +73,11 @@ export default {
             console.log(res);
             if(res.meta.status !== 200) return this.$message.error(res.meta.msg)
             this.menulist = res.data
+        },
+        toggleCollapse(){
+            this.isCollapse = !this.isCollapse
         }
+
     }
 }
 </script>
@@ -85,11 +101,27 @@ export default {
     .el-aside{
         background-color: #333744;
         color:white;
+        .el-menu {
+            border-right:0;
+        }
     }
     .el-main{
         background-color: #eaedf1;
     }
     .home-container{
         height:100%;
+    }
+    .iconfont {
+        margin-right:10px;
+    }
+    .toggle-button {
+        background-color: #4a5064;
+        color:#fff;
+        text-align:center;
+        font-size:12px;
+        line-height:25px;
+        letter-spacing:.1em;
+        cursor: pointer;
+        user-select:none;
     }
 </style>

@@ -23,3 +23,22 @@
   content: "\e614";
 }
 
+.icon-showpassword:before { content: "\EA3F"; }
+
+.icon-user:before { content: "\E89A"; }
+
+.icon-users:before { content: "\E8B5"; }
+
+.icon-3702mima:before { content: "\E66C"; }
+
+.icon-shangpin:before { content: "\E888"; }
+
+.icon-danju:before { content: "\E89B"; }
+
+.icon-tijikongjian:before { content: "\E89F"; }
+
+.icon-morentouxiang:before { content: "\E8C9"; }
+
+.icon-baobiao:before { content: "\E902"; }
+
+.icon-lock_fill:before { content: "\E709"; }
